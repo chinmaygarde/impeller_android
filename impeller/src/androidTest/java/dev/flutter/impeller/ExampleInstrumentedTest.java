@@ -23,4 +23,10 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("dev.flutter.impeller.test", appContext.getPackageName());
     }
+
+    @Test
+    public void canLoadLibrary() {
+        Impeller impeller = new Impeller();
+        assertEquals(impeller.version(), 1);
+    }
 }
