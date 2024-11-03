@@ -11,6 +11,7 @@ public class Matrix {
     }
 
     public Matrix(float[] elements) {
+        assert elements.length == 16;
         this.elements = elements;
     }
 

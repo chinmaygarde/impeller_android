@@ -1,13 +1,15 @@
 package dev.flutter.impeller;
 
-public class Path {
+public class Paragraph {
     public long getHandle() {
         return handle;
     }
 
     private long handle = 0;
 
-    Path(long handle) {
+    Paragraph(long handle) {
         this.handle = handle;
     }
+
+
 }

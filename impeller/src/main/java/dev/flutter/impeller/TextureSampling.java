@@ -1,4 +1,3 @@
 package dev.flutter.impeller;
 
-public enum StrokeCap {}
-
+public enum TextureSampling {}
