@@ -855,3 +855,37 @@ Java_dev_flutter_impeller_DisplayListBuilder_ImpellerDisplayListBuilderTranslate
   ImpellerDisplayListBuilderTranslate((ImpellerDisplayListBuilder)builder, x,
                                       y);
 }
+
+//------------------------------------------------------------------------------
+// Color Filter
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorFilter_ImpellerColorFilterCreateBlendNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloat r,
+    jfloat g,
+    jfloat b,
+    jfloat a,
+    jint blend_mode) {
+  ImpellerColor color = {r, g, b, a, kImpellerColorSpaceSRGB};
+  return (jlong)ImpellerColorFilterCreateBlendNew(
+      &color, (ImpellerBlendMode)blend_mode);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorFilter_ImpellerColorFilterCreateColorMatrixNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloatArray color_matrix) {
+  const auto icolor_matrix = ToColorMatrix(env, color_matrix);
+  return (jlong)ImpellerColorFilterCreateColorMatrixNew(&icolor_matrix);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ColorFilter_ImpellerColorFilterRelease(JNIEnv* env,
+                                                                 jclass clazz,
+                                                                 jlong filter) {
+  ImpellerColorFilterRelease((ImpellerColorFilter)filter);
+}
