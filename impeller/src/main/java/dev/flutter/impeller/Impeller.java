@@ -5,8 +5,8 @@ public class Impeller {
         System.loadLibrary("impeller");
         System.loadLibrary("impeller_glue");
     }
-    public int version() {
-        return 0;
+    public static int version() {
+        return ImpellerGetVersion();
     }
-    native public static void SayHello();
+    private static native int ImpellerGetVersion();
 }

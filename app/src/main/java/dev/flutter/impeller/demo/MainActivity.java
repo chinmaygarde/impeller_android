@@ -15,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Impeller impeller = new Impeller();
-        Log.d("Impeller", "Impeller Version: " + impeller.version());
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
