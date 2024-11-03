@@ -7,6 +7,7 @@ public class Paint {
 
     void dispose() {
         ImpellerPaintRelease(handle);
+        handle = 0;
     }
 
     public long getHandle() {
