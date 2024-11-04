@@ -1,4 +1,5 @@
 
+#include <EGL/egl.h>
 #include <android/log.h>
 #include <impeller.h>
 #include <jni.h>
@@ -1029,4 +1030,23 @@ Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceRelease(JNIEnv* env,
                                                                  jclass clazz,
                                                                  jlong source) {
   ImpellerColorSourceRelease((ImpellerColorSource)source);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_Context_ImpellerContextCreateOpenGLESNew(
+    JNIEnv* env,
+    jclass clazz) {
+  return (jlong)ImpellerContextCreateOpenGLESNew(
+      IMPELLER_VERSION,
+      [](const char* proc_name, void*) -> void* {
+        return (void*)eglGetProcAddress(proc_name);
+      },
+      nullptr);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_Context_ImpellerContextRelease(JNIEnv* env,
+                                                         jclass clazz,
+                                                         jlong context) {
+  ImpellerContextRelease((ImpellerContext)context);
 }
