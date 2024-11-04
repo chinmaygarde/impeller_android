@@ -10,4 +10,13 @@ public class Path {
     Path(long handle) {
         this.handle = handle;
     }
+
+    public static native void ImpellerPathRelease(long path);
+
+    public void dispose() {
+        ImpellerPathRelease(handle);
+        handle = 0;
+    }
+
 }
+

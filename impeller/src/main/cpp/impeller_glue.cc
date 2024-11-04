@@ -62,6 +62,10 @@ static ImpellerRect ToRect(JNIEnv* env, jfloatArray data) {
   return ReadFromFloatArray<ImpellerRect>(env, data);
 }
 
+static ImpellerSize ToSize(JNIEnv* env, jfloatArray data) {
+  return ReadFromFloatArray<ImpellerSize>(env, data);
+}
+
 static ImpellerRoundingRadii ToRoundingRadii(JNIEnv* env, jfloatArray data) {
   return ReadFromFloatArray<ImpellerRoundingRadii>(env, data);
 }
@@ -1487,4 +1491,51 @@ Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleNew(
     JNIEnv* env,
     jclass clazz) {
   return (jlong)ImpellerParagraphStyleNew();
+}
+
+//------------------------------------------------------------------------------
+// Path
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_Path_ImpellerPathRelease(JNIEnv* env,
+                                                   jclass clazz,
+                                                   jlong path) {
+  ImpellerPathRelease((ImpellerPath)path);
+}
+
+//------------------------------------------------------------------------------
+// Surface
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_Surface_ImpellerSurfaceRelease(JNIEnv* env,
+                                                         jclass clazz,
+                                                         jlong surface) {
+  ImpellerSurfaceRelease((ImpellerSurface)surface);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_dev_flutter_impeller_Surface_ImpellerSurfaceDrawDisplayList(
+    JNIEnv* env,
+    jclass clazz,
+    jlong surface,
+    jlong display_list) {
+  return ImpellerSurfaceDrawDisplayList((ImpellerSurface)surface,
+                                        (ImpellerDisplayList)display_list);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_Surface_ImpellerSurfaceCreateWrappedFBONew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong context,
+    jint fbo,
+    jint pixel_format,
+    jfloatArray surface_size) {
+  const auto isurface_size = ToSize(env, surface_size);
+  const auto size = ImpellerISize{static_cast<int64_t>(isurface_size.width),
+                                  static_cast<int64_t>(isurface_size.height)};
+  return (jlong)ImpellerSurfaceCreateWrappedFBONew(
+      (ImpellerContext)context, fbo, (ImpellerPixelFormat)pixel_format, &size);
 }

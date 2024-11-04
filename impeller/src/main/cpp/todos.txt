@@ -1,9 +1,3 @@
-ImpellerPathRelease
-ImpellerPathRetain
-ImpellerSurfaceCreateWrappedFBONew
-ImpellerSurfaceDrawDisplayList
-ImpellerSurfaceRelease
-ImpellerSurfaceRetain
 ImpellerTextureCreateWithContentsNew
 ImpellerTextureCreateWithOpenGLTextureHandleNew
 ImpellerTextureGetOpenGLHandle
