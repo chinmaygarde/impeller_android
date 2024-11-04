@@ -1,11 +1,3 @@
-
-ImpellerImageFilterCreateBlurNew
-ImpellerImageFilterCreateComposeNew
-ImpellerImageFilterCreateDilateNew
-ImpellerImageFilterCreateErodeNew
-ImpellerImageFilterCreateMatrixNew
-ImpellerImageFilterRelease
-ImpellerImageFilterRetain
 ImpellerMaskFilterCreateBlurNew
 ImpellerMaskFilterRelease
 ImpellerMaskFilterRetain

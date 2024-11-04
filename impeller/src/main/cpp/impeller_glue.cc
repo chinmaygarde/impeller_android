@@ -1061,3 +1061,64 @@ Java_dev_flutter_impeller_DisplayList_ImpellerDisplayListRelease(JNIEnv* env,
                                                                  jlong handle) {
   ImpellerDisplayListRelease((ImpellerDisplayList)handle);
 }
+
+//------------------------------------------------------------------------------
+// Image Filter
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterRelease(JNIEnv* env,
+                                                                 jclass clazz,
+                                                                 jlong filter) {
+  ImpellerImageFilterRelease((ImpellerImageFilter)filter);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterCreateMatrixNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloatArray matrix,
+    jint sampling) {
+  const auto imatrix = ToMatrix(env, matrix);
+  return (jlong)ImpellerImageFilterCreateMatrixNew(
+      &imatrix, (ImpellerTextureSampling)sampling);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterCreateErodeNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloat x_radius,
+    jfloat y_radius) {
+  return (jlong)ImpellerImageFilterCreateErodeNew(x_radius, y_radius);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterCreateDilateNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloat x_radius,
+    jfloat y_radius) {
+  return (jlong)ImpellerImageFilterCreateDilateNew(x_radius, y_radius);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterCreateComposeNew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong outer,
+    jlong inner) {
+  return (jlong)ImpellerImageFilterCreateComposeNew((ImpellerImageFilter)outer,
+                                                    (ImpellerImageFilter)inner);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterCreateBlurNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloat x_sigma,
+    jfloat y_sigma,
+    jint tile_mode) {
+  return (jlong)ImpellerImageFilterCreateBlurNew(x_sigma, y_sigma,
+                                                 (ImpellerTileMode)tile_mode);
+}
