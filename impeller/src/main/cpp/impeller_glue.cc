@@ -1050,3 +1050,14 @@ Java_dev_flutter_impeller_Context_ImpellerContextRelease(JNIEnv* env,
                                                          jlong context) {
   ImpellerContextRelease((ImpellerContext)context);
 }
+
+//------------------------------------------------------------------------------
+// Display List
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_DisplayList_ImpellerDisplayListRelease(JNIEnv* env,
+                                                                 jclass clazz,
+                                                                 jlong handle) {
+  ImpellerDisplayListRelease((ImpellerDisplayList)handle);
+}

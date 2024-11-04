@@ -1,5 +1,4 @@
-ImpellerDisplayListRelease
-ImpellerDisplayListRetain
+
 ImpellerImageFilterCreateBlurNew
 ImpellerImageFilterCreateComposeNew
 ImpellerImageFilterCreateDilateNew
