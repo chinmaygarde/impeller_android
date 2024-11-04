@@ -4,6 +4,7 @@
 #include <impeller.h>
 #include <jni.h>
 #include <string.h>
+#include <string>
 #include <vector>
 
 template <class T>
@@ -38,6 +39,19 @@ bool WriteToFloatArray(JNIEnv* env, jfloatArray data, T value) {
   memcpy(elements, &value, floats_count * sizeof(float));
   env->ReleaseFloatArrayElements(data, elements, 0);
   return true;
+}
+
+static std::string ReadString(JNIEnv* env, jstring string) {
+  if (string == nullptr) {
+    return {};
+  }
+  auto text_chars = env->GetStringUTFChars(string, NULL);
+  if (text_chars == nullptr) {
+    return {};
+  }
+  std::string result(text_chars, env->GetStringUTFLength(string));
+  env->ReleaseStringUTFChars(string, text_chars);
+  return result;
 }
 
 static ImpellerPoint ToPoint(JNIEnv* env, jfloatArray data) {
@@ -1218,4 +1232,259 @@ Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderAddText(
                                   (const uint8_t*)text_chars,
                                   env->GetStringUTFLength(text));
   env->ReleaseStringUTFChars(text, text_chars);
+}
+
+//------------------------------------------------------------------------------
+// Paragraph
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphRelease(JNIEnv* env,
+                                                             jclass clazz,
+                                                             jlong para) {
+  ImpellerParagraphRelease((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetMinIntrinsicWidth(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetMinIntrinsicWidth((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetMaxWidth(JNIEnv* env,
+                                                                 jclass clazz,
+                                                                 jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetMaxWidth((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetMaxIntrinsicWidth(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetMaxIntrinsicWidth((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetLongestLineWidth(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetLongestLineWidth((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetLineCount(JNIEnv* env,
+                                                                  jclass clazz,
+                                                                  jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetLineCount((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetIdeographicBaseline(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetIdeographicBaseline((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetHeight(JNIEnv* env,
+                                                               jclass clazz,
+                                                               jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetHeight((ImpellerParagraph)para);
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_dev_flutter_impeller_Paragraph_ImpellerParagraphGetAlphabeticBaseline(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para) {
+  if (para == 0) {
+    return 0;
+  }
+  return ImpellerParagraphGetAlphabeticBaseline((ImpellerParagraph)para);
+}
+
+//------------------------------------------------------------------------------
+// Paragraph Style
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetTextDirection(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jint text_direction) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetTextDirection((ImpellerParagraphStyle)para,
+                                         (ImpellerTextDirection)text_direction);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetTextAlignment(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jint text_alignment) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetTextAlignment((ImpellerParagraphStyle)para,
+                                         (ImpellerTextAlignment)text_alignment);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetMaxLines(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jint max_lines) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetMaxLines((ImpellerParagraphStyle)para, max_lines);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetLocale(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jstring locale) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetLocale((ImpellerParagraphStyle)para,
+                                  ReadString(env, locale).c_str());
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetHeight(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jfloat height) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetHeight((ImpellerParagraphStyle)para, height);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetForeground(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jlong paint) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetForeground((ImpellerParagraphStyle)para,
+                                      (ImpellerPaint)paint);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetFontWeight(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jint font_weight) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetFontWeight((ImpellerParagraphStyle)para,
+                                      (ImpellerFontWeight)font_weight);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetFontStyle(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jint font_style) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetFontStyle((ImpellerParagraphStyle)para,
+                                     (ImpellerFontStyle)font_style);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetFontSize(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jfloat size) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetFontSize((ImpellerParagraphStyle)para, size);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetFontFamily(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jstring family) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetFontFamily((ImpellerParagraphStyle)para,
+                                      ReadString(env, family).c_str());
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleSetBackground(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para,
+    jlong paint) {
+  if (para == 0) {
+    return;
+  }
+  ImpellerParagraphStyleSetBackground((ImpellerParagraphStyle)para,
+                                      (ImpellerPaint)paint);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleRelease(
+    JNIEnv* env,
+    jclass clazz,
+    jlong para) {
+  ImpellerParagraphStyleRelease((ImpellerParagraphStyle)para);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ParagraphStyle_ImpellerParagraphStyleNew(
+    JNIEnv* env,
+    jclass clazz) {
+  return (jlong)ImpellerParagraphStyleNew();
 }
