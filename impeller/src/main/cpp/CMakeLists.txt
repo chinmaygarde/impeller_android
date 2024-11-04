@@ -32,4 +32,4 @@ include_directories(${impeller_sdk_SOURCE_DIR}/include)
 add_library(impeller_glue SHARED
   impeller_glue.cc
 )
-target_link_libraries(impeller_glue impeller log android egl)
+target_link_libraries(impeller_glue impeller log android EGL)
