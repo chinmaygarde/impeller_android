@@ -1143,3 +1143,79 @@ Java_dev_flutter_impeller_MaskFilter_ImpellerMaskFilterRelease(JNIEnv* env,
                                                                jlong filter) {
   ImpellerMaskFilterRelease((ImpellerMaskFilter)filter);
 }
+
+//------------------------------------------------------------------------------
+// Paragraph Builder
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderRelease(
+    JNIEnv* env,
+    jclass clazz,
+    jlong builder) {
+  ImpellerParagraphBuilderRelease((ImpellerParagraphBuilder)builder);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderPushStyle(
+    JNIEnv* env,
+    jclass clazz,
+    jlong builder,
+    jlong style) {
+  if (builder == 0) {
+    return;
+  }
+  ImpellerParagraphBuilderPushStyle((ImpellerParagraphBuilder)builder,
+                                    (ImpellerParagraphStyle)style);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderPopStyle(
+    JNIEnv* env,
+    jclass clazz,
+    jlong builder) {
+  if (builder == 0) {
+    return;
+  }
+  ImpellerParagraphBuilderPopStyle((ImpellerParagraphBuilder)builder);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderNew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong context) {
+  return (jlong)ImpellerParagraphBuilderNew((ImpellerTypographyContext)context);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderBuildParagraphNew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong builder,
+    jfloat width) {
+  if (builder == 0) {
+    return 0;
+  }
+  return (jlong)ImpellerParagraphBuilderBuildParagraphNew(
+      (ImpellerParagraphBuilder)builder, width);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ParagraphBuilder_ImpellerParagraphBuilderAddText(
+    JNIEnv* env,
+    jclass clazz,
+    jlong builder,
+    jstring text) {
+  if (builder == 0 || text == nullptr) {
+    return;
+  }
+  auto text_chars = env->GetStringUTFChars(text, NULL);
+  if (text_chars == nullptr) {
+    return;
+  }
+  ImpellerParagraphBuilderAddText((ImpellerParagraphBuilder)builder,
+                                  (const uint8_t*)text_chars,
+                                  env->GetStringUTFLength(text));
+  env->ReleaseStringUTFChars(text, text_chars);
+}

@@ -1,6 +1,5 @@
 package dev.flutter.impeller;
 
-
 public class MaskFilter {
     private long handle = 0;
 
