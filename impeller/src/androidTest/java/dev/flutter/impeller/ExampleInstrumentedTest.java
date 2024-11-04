@@ -1,14 +1,14 @@
 package dev.flutter.impeller;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -26,7 +26,6 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void canLoadLibrary() {
-        Impeller impeller = new Impeller();
-        assertEquals(impeller.version(), 1);
+        assertEquals(Impeller.version(), 541073408);
     }
 }
