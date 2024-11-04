@@ -6,7 +6,7 @@ public class ColorFilter {
     }
 
     public ColorFilter(Color color, BlendMode mode) {
-        this.handle = ImpellerColorFilterCreateBlendNew(color.red, color.green, color.blue, color.alpha, mode.ordinal());
+        this.handle = ImpellerColorFilterCreateBlendNew(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha(), mode.ordinal());
     }
 
     public ColorFilter(ColorMatrix matrix) {

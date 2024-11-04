@@ -18,10 +18,10 @@ public class ColorSource {
         float[] raw_stops = new float[colors.size()];
         for (int i = 0; i < colors.size(); i++) {
             raw_stops[i] = stops.get(i);
-            raw_colors[(i * 4) + 0] = colors.get(i).red;
-            raw_colors[(i * 4) + 1] = colors.get(i).green;
-            raw_colors[(i * 4) + 2] = colors.get(i).blue;
-            raw_colors[(i * 4) + 3] = colors.get(i).alpha;
+            raw_colors[(i * 4) + 0] = colors.get(i).getRed();
+            raw_colors[(i * 4) + 1] = colors.get(i).getGreen();
+            raw_colors[(i * 4) + 2] = colors.get(i).getBlue();
+            raw_colors[(i * 4) + 3] = colors.get(i).getAlpha();
         }
         this.handle = ImpellerColorSourceCreateConicalGradientNew(start_center.getElements(), start_radius, end_center.getElements(), end_radius, raw_colors, raw_stops, mode.ordinal(), transform.getElements());
     }
@@ -42,10 +42,10 @@ public class ColorSource {
         float[] raw_stops = new float[colors.size()];
         for (int i = 0; i < colors.size(); i++) {
             raw_stops[i] = stops.get(i);
-            raw_colors[(i * 4) + 0] = colors.get(i).red;
-            raw_colors[(i * 4) + 1] = colors.get(i).green;
-            raw_colors[(i * 4) + 2] = colors.get(i).blue;
-            raw_colors[(i * 4) + 3] = colors.get(i).alpha;
+            raw_colors[(i * 4) + 0] = colors.get(i).getRed();
+            raw_colors[(i * 4) + 1] = colors.get(i).getGreen();
+            raw_colors[(i * 4) + 2] = colors.get(i).getBlue();
+            raw_colors[(i * 4) + 3] = colors.get(i).getAlpha();
         }
         this.handle = ImpellerColorSourceCreateLinearGradientNew(start_point.getElements(), end_point.getElements(), raw_colors, raw_stops, tile_mode.ordinal(), transform.getElements());
     }
@@ -59,10 +59,10 @@ public class ColorSource {
         float[] raw_stops = new float[colors.size()];
         for (int i = 0; i < colors.size(); i++) {
             raw_stops[i] = stops.get(i);
-            raw_colors[(i * 4) + 0] = colors.get(i).red;
-            raw_colors[(i * 4) + 1] = colors.get(i).green;
-            raw_colors[(i * 4) + 2] = colors.get(i).blue;
-            raw_colors[(i * 4) + 3] = colors.get(i).alpha;
+            raw_colors[(i * 4) + 0] = colors.get(i).getRed();
+            raw_colors[(i * 4) + 1] = colors.get(i).getGreen();
+            raw_colors[(i * 4) + 2] = colors.get(i).getBlue();
+            raw_colors[(i * 4) + 3] = colors.get(i).getAlpha();
         }
         this.handle = ImpellerColorSourceCreateRadialGradientNew(center.getElements(), radius, raw_colors, raw_stops, tile_mode.ordinal(), transform.getElements());
     }
@@ -76,10 +76,10 @@ public class ColorSource {
         float[] raw_stops = new float[colors.size()];
         for (int i = 0; i < colors.size(); i++) {
             raw_stops[i] = stops.get(i);
-            raw_colors[(i * 4) + 0] = colors.get(i).red;
-            raw_colors[(i * 4) + 1] = colors.get(i).green;
-            raw_colors[(i * 4) + 2] = colors.get(i).blue;
-            raw_colors[(i * 4) + 3] = colors.get(i).alpha;
+            raw_colors[(i * 4) + 0] = colors.get(i).getRed();
+            raw_colors[(i * 4) + 1] = colors.get(i).getGreen();
+            raw_colors[(i * 4) + 2] = colors.get(i).getBlue();
+            raw_colors[(i * 4) + 3] = colors.get(i).getAlpha();
         }
         this.handle = ImpellerColorSourceCreateSweepGradientNew(center.getElements(), start, end, raw_colors, raw_stops, tile_mode.ordinal(), transform.getElements());
     }

@@ -1,7 +1,5 @@
 package dev.flutter.impeller;
 
-import androidx.annotation.Nullable;
-
 public class DisplayListBuilder {
     private long handle = 0;
 
@@ -176,7 +174,7 @@ public class DisplayListBuilder {
 
     private static native void ImpellerDisplayListBuilderSaveLayer(long builder, float[] bounds, long paint, long backdrop_image_filter);
 
-    public void saveLayer(Rect bounds, @Nullable Paint paint, @Nullable ImageFilter image_filter) {
+    public void saveLayer(Rect bounds, Paint paint, ImageFilter image_filter) {
         ImpellerDisplayListBuilderSaveLayer(handle, bounds.getElements(), paint == null ? 0 : paint.getHandle(), image_filter == null ? 0 : image_filter.getHandle());
     }
 
@@ -185,7 +183,6 @@ public class DisplayListBuilder {
     public void scale(Size size) {
         ImpellerDisplayListBuilderScale(handle, size.getWidth(), size.getHeight());
     }
-
 
     private static native void ImpellerDisplayListBuilderSetTransform(long builder, float[] transform);
 

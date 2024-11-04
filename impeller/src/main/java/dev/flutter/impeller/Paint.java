@@ -19,7 +19,7 @@ public class Paint {
     }
 
     public void setColor(Color color) {
-        ImpellerPaintSetColor(handle, color.red, color.green, color.blue, color.alpha);
+        ImpellerPaintSetColor(handle, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
 
     public void setColorFilter(ColorFilter filter) {
