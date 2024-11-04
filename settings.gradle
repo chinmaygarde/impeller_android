@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "impeller"
-include ':app'
+include ':example'
 include ':impeller'
