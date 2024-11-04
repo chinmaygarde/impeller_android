@@ -10,6 +10,4 @@ public class Paragraph {
     Paragraph(long handle) {
         this.handle = handle;
     }
-
-
 }

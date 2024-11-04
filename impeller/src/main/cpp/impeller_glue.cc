@@ -3,6 +3,7 @@
 #include <impeller.h>
 #include <jni.h>
 #include <string.h>
+#include <vector>
 
 template <class T>
 T ReadFromFloatArray(JNIEnv* env, jfloatArray data) {
@@ -888,4 +889,144 @@ Java_dev_flutter_impeller_ColorFilter_ImpellerColorFilterRelease(JNIEnv* env,
                                                                  jclass clazz,
                                                                  jlong filter) {
   ImpellerColorFilterRelease((ImpellerColorFilter)filter);
+}
+
+//------------------------------------------------------------------------------
+// Color Filter
+//------------------------------------------------------------------------------
+
+struct ColorStops {
+  std::vector<ImpellerColor> colors;
+  std::vector<float> stops;
+
+  ColorStops(JNIEnv* env, jfloatArray jcolors, jfloatArray jstops) {
+    const auto stop_count = env->GetArrayLength(jstops);
+    const auto color_components_count = env->GetArrayLength(jcolors);
+    if (stop_count * 4 != color_components_count) {
+      return;
+    }
+    stops.reserve(stop_count);
+    colors.reserve(stop_count);
+    const auto c_color_components = env->GetFloatArrayElements(jcolors, NULL);
+    const auto c_stops = env->GetFloatArrayElements(jstops, NULL);
+    if (!c_color_components || !c_stops) {
+      return;
+    }
+    for (size_t i = 0; i < stop_count; i++) {
+      stops.push_back(c_stops[i]);
+      ImpellerColor color = {};
+      color.color_space = kImpellerColorSpaceSRGB;
+      color.red = c_color_components[(i * 4u) + 0u];
+      color.green = c_color_components[(i * 4u) + 1u];
+      color.blue = c_color_components[(i * 4u) + 2u];
+      color.alpha = c_color_components[(i * 4u) + 3u];
+      colors.push_back(color);
+    }
+    env->ReleaseFloatArrayElements(jcolors, c_color_components, 0);
+    env->ReleaseFloatArrayElements(jstops, c_stops, 0);
+  }
+};
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceCreateConicalGradientNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloatArray start_center_point,
+    jfloat start_radius,
+    jfloatArray end_center_point,
+    jfloat end_radius,
+    jfloatArray color,
+    jfloatArray stops,
+    jint tile_mode,
+    jfloatArray transform) {
+  const auto istart_center_point = ToPoint(env, start_center_point);
+  const auto iend_center_point = ToPoint(env, end_center_point);
+  ColorStops color_stops(env, color, stops);
+  const auto itransform = ToMatrix(env, transform);
+  return (jlong)ImpellerColorSourceCreateConicalGradientNew(
+      &istart_center_point, start_radius, &iend_center_point, end_radius,
+      color_stops.stops.size(), color_stops.colors.data(),
+      color_stops.stops.data(), (ImpellerTileMode)tile_mode, &itransform);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceCreateImageNew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong texture,
+    jint horizontal_tile_mode,
+    jint vertical_tile_mode,
+    jint sampling,
+    jfloatArray transform) {
+  const auto itransform = ToMatrix(env, transform);
+  return (jlong)ImpellerColorSourceCreateImageNew(
+      (ImpellerTexture)texture, (ImpellerTileMode)horizontal_tile_mode,
+      (ImpellerTileMode)vertical_tile_mode, (ImpellerTextureSampling)sampling,
+      &itransform);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceCreateLinearGradientNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloatArray start_point,
+    jfloatArray end_point,
+    jfloatArray colors,
+    jfloatArray stops,
+    jint tile_mode,
+    jfloatArray transform) {
+  const auto istart_point = ToPoint(env, start_point);
+  const auto iend_point = ToPoint(env, end_point);
+  ColorStops color_stops(env, colors, stops);
+  const auto itransform = ToMatrix(env, transform);
+  return (jlong)ImpellerColorSourceCreateLinearGradientNew(
+      &istart_point, &iend_point, color_stops.stops.size(),
+      color_stops.colors.data(), color_stops.stops.data(),
+      (ImpellerTileMode)tile_mode, &itransform);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceCreateRadialGradientNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloatArray center_point,
+    jfloat radius,
+    jfloatArray colors,
+    jfloatArray stops,
+    jint tile_mode,
+    jfloatArray transform) {
+  const auto icenter_point = ToPoint(env, center_point);
+  ColorStops color_stops(env, colors, stops);
+  const auto itransform = ToMatrix(env, transform);
+  return (jlong)ImpellerColorSourceCreateRadialGradientNew(
+      &icenter_point, radius, color_stops.stops.size(),
+      color_stops.colors.data(), color_stops.stops.data(),
+      (ImpellerTileMode)tile_mode, &itransform);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceCreateSweepGradientNew(
+    JNIEnv* env,
+    jclass clazz,
+    jfloatArray center_point,
+    jfloat start,
+    jfloat end,
+    jfloatArray colors,
+    jfloatArray stops,
+    jint tile_mode,
+    jfloatArray transform) {
+  const auto icenter_point = ToPoint(env, center_point);
+  ColorStops color_stops(env, colors, stops);
+  const auto itransform = ToMatrix(env, transform);
+  return (jlong)ImpellerColorSourceCreateSweepGradientNew(
+      &icenter_point, start, end, color_stops.stops.size(),
+      color_stops.colors.data(), color_stops.stops.data(),
+      (ImpellerTileMode)tile_mode, &itransform);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_ColorSource_ImpellerColorSourceRelease(JNIEnv* env,
+                                                                 jclass clazz,
+                                                                 jlong source) {
+  ImpellerColorSourceRelease((ImpellerColorSource)source);
 }
