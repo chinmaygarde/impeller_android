@@ -1,6 +1,4 @@
-ImpellerMaskFilterCreateBlurNew
-ImpellerMaskFilterRelease
-ImpellerMaskFilterRetain
+
 ImpellerParagraphBuilderAddText
 ImpellerParagraphBuilderBuildParagraphNew
 ImpellerParagraphBuilderNew

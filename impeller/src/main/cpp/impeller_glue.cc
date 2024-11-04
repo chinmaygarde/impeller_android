@@ -1122,3 +1122,24 @@ Java_dev_flutter_impeller_ImageFilter_ImpellerImageFilterCreateBlurNew(
   return (jlong)ImpellerImageFilterCreateBlurNew(x_sigma, y_sigma,
                                                  (ImpellerTileMode)tile_mode);
 }
+
+//------------------------------------------------------------------------------
+// Image Filter
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_MaskFilter_ImpellerMaskFilterCreateBlurNew(
+    JNIEnv* env,
+    jclass clazz,
+    jint blur_style,
+    jfloat sigma) {
+  return (jlong)ImpellerMaskFilterCreateBlurNew((ImpellerBlurStyle)blur_style,
+                                                sigma);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_MaskFilter_ImpellerMaskFilterRelease(JNIEnv* env,
+                                                               jclass clazz,
+                                                               jlong filter) {
+  ImpellerMaskFilterRelease((ImpellerMaskFilter)filter);
+}
