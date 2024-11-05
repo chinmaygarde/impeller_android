@@ -1,3 +1,7 @@
 package dev.flutter.impeller;
 
-public enum DrawStyle {}
+public enum DrawStyle {
+  fill,
+  stroke,
+  strokeAndFill,
+}
