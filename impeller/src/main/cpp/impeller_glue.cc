@@ -1641,3 +1641,55 @@ Java_dev_flutter_impeller_Texture_ImpellerTextureCreateWithContentsNew(
   env->ReleaseByteArrayElements(data, data_bytes, 0);
   return result;
 }
+
+//------------------------------------------------------------------------------
+// Typography Context
+//------------------------------------------------------------------------------
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_TypographyContext_ImpellerTypographyContextRelease(
+    JNIEnv* env,
+    jclass clazz,
+    jlong context) {
+  ImpellerTypographyContextRelease((ImpellerTypographyContext)context);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_dev_flutter_impeller_TypographyContext_ImpellerTypographyContextRegisterFont(
+    JNIEnv* env,
+    jclass clazz,
+    jlong context,
+    jbyteArray java_data,
+    jstring family_alias) {
+  if (context == 0 || java_data == nullptr) {
+    return false;
+  }
+  const auto font_data_size = env->GetArrayLength(java_data);
+  auto font_data = malloc(font_data_size);
+  if (!font_data) {
+    return false;
+  }
+  auto java_data_bytes = env->GetByteArrayElements(java_data, NULL);
+  if (!java_data_bytes) {
+    free(font_data);
+    return false;
+  }
+  memcpy(font_data, java_data_bytes, font_data_size);
+  env->ReleaseByteArrayElements(java_data, java_data_bytes, 0);
+
+  ImpellerMapping mapping = {};
+  mapping.data = (const uint8_t*)font_data;
+  mapping.length = font_data_size;
+  mapping.on_release = [](void* font_data) { free(font_data); };
+
+  return ImpellerTypographyContextRegisterFont(
+      (ImpellerTypographyContext)context, &mapping, font_data,
+      ReadString(env, family_alias).c_str());
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_TypographyContext_ImpellerTypographyContextNew(
+    JNIEnv* env,
+    jclass clazz) {
+  return (jlong)ImpellerTypographyContextNew();
+}

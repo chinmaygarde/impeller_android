@@ -1,5 +1,0 @@
-
-ImpellerTypographyContextNew
-ImpellerTypographyContextRegisterFont
-ImpellerTypographyContextRelease
-ImpellerTypographyContextRetain
