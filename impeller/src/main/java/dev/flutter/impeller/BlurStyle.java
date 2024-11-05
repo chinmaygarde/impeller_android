@@ -1,3 +1,8 @@
 package dev.flutter.impeller;
 
-public enum BlurStyle {}
+public enum BlurStyle {
+  normal,
+  solid,
+  outer,
+  inner,
+}

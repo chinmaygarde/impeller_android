@@ -1,3 +1,6 @@
 package dev.flutter.impeller;
 
-public enum ClipOperation {}
+public enum ClipOperation {
+  difference,
+  intersect,
+}

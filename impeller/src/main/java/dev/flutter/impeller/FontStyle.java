@@ -1,3 +1,6 @@
 package dev.flutter.impeller;
 
-public enum FontStyle {}
+public enum FontStyle {
+  normal,
+  italic,
+}

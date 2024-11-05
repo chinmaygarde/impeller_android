@@ -1,3 +1,7 @@
 package dev.flutter.impeller;
 
-public enum StrokeJoin {}
+public enum StrokeJoin {
+  miter,
+  round,
+  bevel,
+}

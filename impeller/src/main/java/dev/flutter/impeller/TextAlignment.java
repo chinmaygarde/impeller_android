@@ -1,3 +1,10 @@
 package dev.flutter.impeller;
 
-public enum TextAlignment {}
+public enum TextAlignment {
+  left,
+  right,
+  center,
+  justify,
+  start,
+  end,
+}

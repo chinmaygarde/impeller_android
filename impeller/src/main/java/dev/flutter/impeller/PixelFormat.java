@@ -1,3 +1,5 @@
 package dev.flutter.impeller;
 
-public enum PixelFormat {}
+public enum PixelFormat {
+  rgba8888,
+}

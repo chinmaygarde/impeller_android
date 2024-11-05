@@ -1,3 +1,6 @@
 package dev.flutter.impeller;
 
-public enum FillType {}
+public enum FillType {
+  nonZero,
+  odd,
+}

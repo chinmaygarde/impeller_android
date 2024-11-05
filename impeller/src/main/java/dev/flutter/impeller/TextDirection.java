@@ -1,3 +1,6 @@
 package dev.flutter.impeller;
 
-public enum TextDirection {}
+public enum TextDirection {
+  rtl,
+  ltr,
+}

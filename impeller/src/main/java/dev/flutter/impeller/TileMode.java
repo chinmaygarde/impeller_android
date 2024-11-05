@@ -1,4 +1,9 @@
 package dev.flutter.impeller;
 
-public enum TileMode {}
+public enum TileMode {
+  clamp,
+  repeat,
+  mirror,
+  decal,
+}
 

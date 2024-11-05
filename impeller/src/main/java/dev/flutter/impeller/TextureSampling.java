@@ -1,3 +1,6 @@
 package dev.flutter.impeller;
 
-public enum TextureSampling {}
+public enum TextureSampling {
+  nearestNeighbor,
+  linear,
+}

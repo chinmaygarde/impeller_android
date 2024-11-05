@@ -11,11 +11,6 @@ public class Color {
         this.alpha = alpha;
     }
 
-    private float red = 0;
-    private float green = 0;
-    private float blue = 0;
-    private float alpha = 0;
-
     public float getRed() {
         return red;
     }
@@ -35,7 +30,6 @@ public class Color {
     public float getBlue() {
         return blue;
     }
-
     public void setBlue(float blue) {
         this.blue = blue;
     }
@@ -47,4 +41,12 @@ public class Color {
     public void setAlpha(float alpha) {
         this.alpha = alpha;
     }
+
+    private float red = 0;
+
+    private float green = 0;
+
+    private float blue = 0;
+
+    private float alpha = 0;
 }
