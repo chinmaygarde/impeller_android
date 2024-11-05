@@ -3,6 +3,9 @@ package dev.flutter.impeller;
 import java.util.List;
 
 public class ColorSource {
+    static {
+        Impeller.EnsureInitialized();
+    }
     private long handle = 0;
 
     public long getHandle() {

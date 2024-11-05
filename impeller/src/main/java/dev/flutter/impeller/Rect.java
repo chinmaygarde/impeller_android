@@ -1,6 +1,16 @@
 package dev.flutter.impeller;
 
 public class Rect {
+    public Rect(Point origin, Size size) {
+        this.origin = origin;
+        this.size = size;
+    }
+
+    public Rect(float x, float y, float width, float height) {
+        this.origin = new Point(x, y);
+        this.size = new Size(width, height);
+    }
+
     public Size getSize() {
         return size;
     }

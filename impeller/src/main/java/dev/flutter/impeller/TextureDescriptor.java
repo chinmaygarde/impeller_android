@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class TextureDescriptor {
+    static {
+        Impeller.EnsureInitialized();
+    }
     private PixelFormat pixelFormat;
     private ISize size;
     private    int mipCount;

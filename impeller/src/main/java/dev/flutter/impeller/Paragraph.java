@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class Paragraph {
+    static {
+        Impeller.EnsureInitialized();
+    }
     public long getHandle() {
         return handle;
     }

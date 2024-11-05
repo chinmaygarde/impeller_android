@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class Context {
+    static {
+        Impeller.EnsureInitialized();
+    }
     public long getHandle() {
         return handle;
     }

@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class PathBuilder {
+    static {
+        Impeller.EnsureInitialized();
+    }
     public PathBuilder() {
         handle = ImpellerPathBuilderNew();
     }

@@ -2,6 +2,9 @@
 package dev.flutter.impeller;
 
 public class Surface {
+    static {
+        Impeller.EnsureInitialized();
+    }
     public long getHandle() {
         return handle;
     }

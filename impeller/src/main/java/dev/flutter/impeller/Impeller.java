@@ -9,4 +9,6 @@ public class Impeller {
         return ImpellerGetVersion();
     }
     private static native int ImpellerGetVersion();
+
+    public static void EnsureInitialized() {}
 }

@@ -3,6 +3,9 @@ package dev.flutter.impeller;
 ;
 
 public class Texture {
+    static {
+        Impeller.EnsureInitialized();
+    }
     Texture(long handle) {
         this.handle = handle;
     }

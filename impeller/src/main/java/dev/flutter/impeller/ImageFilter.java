@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class ImageFilter {
+    static {
+        Impeller.EnsureInitialized();
+    }
     private long handle = 0;
 
     public long getHandle() {

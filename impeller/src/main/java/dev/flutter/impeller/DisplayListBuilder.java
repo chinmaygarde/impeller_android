@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class DisplayListBuilder {
+    static {
+        Impeller.EnsureInitialized();
+    }
     private long handle = 0;
 
     public DisplayListBuilder() {
@@ -31,13 +34,13 @@ public class DisplayListBuilder {
 
     private static native void ImpellerDisplayListBuilderClipRoundedRect(long builder, float[] rect, float[] rounding_radii, int clip_op);
 
-    void clipRoundedRect(Rect rect, RoundingRadii radii, ClipOperation op) {
+    public void clipRoundedRect(Rect rect, RoundingRadii radii, ClipOperation op) {
         ImpellerDisplayListBuilderClipRoundedRect(handle, rect.getElements(), radii.getElements(), op.ordinal());
     }
 
     private static native long ImpellerDisplayListBuilderCreateDisplayListNew(long builder);
 
-    DisplayList build() {
+    public DisplayList build() {
         return new DisplayList(ImpellerDisplayListBuilderCreateDisplayListNew(handle));
     }
 
@@ -74,7 +77,7 @@ public class DisplayListBuilder {
 
     private static native void ImpellerDisplayListBuilderDrawParagraph(long builder, long paragraph, float[] point);
 
-    void drawParagraph(Paragraph paragraph, Point point) {
+    public void drawParagraph(Paragraph paragraph, Point point) {
         ImpellerDisplayListBuilderDrawParagraph(handle, paragraph.getHandle(), point.getElements());
     }
 
@@ -155,7 +158,7 @@ public class DisplayListBuilder {
 
     private static native void ImpellerDisplayListBuilderRestoreToCount(long builder, int count);
 
-    void restoreToCount(int count) {
+    public void restoreToCount(int count) {
         ImpellerDisplayListBuilderRestoreToCount(handle, count);
     }
 

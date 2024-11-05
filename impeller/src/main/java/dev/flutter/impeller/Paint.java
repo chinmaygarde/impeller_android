@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class Paint {
+    static {
+        Impeller.EnsureInitialized();
+    }
     public Paint() {
         handle = ImpellerPaintNew();
     }

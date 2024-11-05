@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class DisplayList {
+    static {
+        Impeller.EnsureInitialized();
+    }
     DisplayList(long handle) {
         this.handle = handle;
     }

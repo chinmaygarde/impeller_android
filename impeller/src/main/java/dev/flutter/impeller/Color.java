@@ -1,6 +1,9 @@
 package dev.flutter.impeller;
 
 public class Color {
+    static {
+        Impeller.EnsureInitialized();
+    }
     public Color() {
     }
 
