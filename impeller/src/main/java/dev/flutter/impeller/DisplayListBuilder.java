@@ -17,7 +17,6 @@ public class DisplayListBuilder {
         ImpellerDisplayListBuilderClipOval(handle, rect.getElements(), op.ordinal());
     }
 
-
     private static native void ImpellerDisplayListBuilderClipPath(long builder, long path, int clip_op);
 
     public void clipPath(Path path, ClipOperation op) {

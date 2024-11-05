@@ -7,20 +7,46 @@
 #include <string>
 #include <vector>
 
-template <class T>
-T ReadFromFloatArray(JNIEnv* env, jfloatArray data) {
-  constexpr auto floats_count = sizeof(T) / sizeof(float);
+template <class JNIArray, class JNIArrayElement>
+JNIArrayElement* PinArray(JNIEnv* env, JNIArray array);
+
+template <class JNIArray, class JNIArrayElement>
+void UnpinArray(JNIEnv* env, JNIArray array, JNIArrayElement* elements);
+
+template <>
+jfloat* PinArray(JNIEnv* env, jfloatArray array) {
+  return env->GetFloatArrayElements(array, NULL);
+}
+
+template <>
+jlong* PinArray(JNIEnv* env, jlongArray array) {
+  return env->GetLongArrayElements(array, NULL);
+}
+
+template <>
+void UnpinArray(JNIEnv* env, jlongArray array, jlong* elements) {
+  env->ReleaseLongArrayElements(array, elements, 0);
+}
+
+template <>
+void UnpinArray(JNIEnv* env, jfloatArray array, jfloat* elements) {
+  env->ReleaseFloatArrayElements(array, elements, 0);
+}
+
+template <class T, class JNIArray, class JNIArrayElement>
+T ReadFromArray(JNIEnv* env, JNIArray data) {
+  constexpr auto elem_count = sizeof(T) / sizeof(JNIArrayElement);
   auto result = T{};
   const auto length = env->GetArrayLength(data);
-  if (length != floats_count) {
+  if (length != elem_count) {
     return result;
   }
-  auto elements = env->GetFloatArrayElements(data, NULL);
+  auto elements = PinArray<JNIArray, JNIArrayElement>(env, data);
   if (elements == NULL) {
     return result;
   }
-  memcpy(&result, elements, floats_count * sizeof(float));
-  env->ReleaseFloatArrayElements(data, elements, 0);
+  memcpy(&result, elements, elem_count * sizeof(JNIArrayElement));
+  UnpinArray<JNIArray, JNIArrayElement>(env, data, elements);
   return result;
 }
 
@@ -55,27 +81,31 @@ static std::string ReadString(JNIEnv* env, jstring string) {
 }
 
 static ImpellerPoint ToPoint(JNIEnv* env, jfloatArray data) {
-  return ReadFromFloatArray<ImpellerPoint>(env, data);
+  return ReadFromArray<ImpellerPoint, jfloatArray, float>(env, data);
 }
 
 static ImpellerRect ToRect(JNIEnv* env, jfloatArray data) {
-  return ReadFromFloatArray<ImpellerRect>(env, data);
+  return ReadFromArray<ImpellerRect, jfloatArray, float>(env, data);
 }
 
 static ImpellerSize ToSize(JNIEnv* env, jfloatArray data) {
-  return ReadFromFloatArray<ImpellerSize>(env, data);
+  return ReadFromArray<ImpellerSize, jfloatArray, float>(env, data);
+}
+
+static ImpellerISize ToISize(JNIEnv* env, jlongArray data) {
+  return ReadFromArray<ImpellerISize, jlongArray, jlong>(env, data);
 }
 
 static ImpellerRoundingRadii ToRoundingRadii(JNIEnv* env, jfloatArray data) {
-  return ReadFromFloatArray<ImpellerRoundingRadii>(env, data);
+  return ReadFromArray<ImpellerRoundingRadii, jfloatArray, float>(env, data);
 }
 
 static ImpellerMatrix ToMatrix(JNIEnv* env, jfloatArray data) {
-  return ReadFromFloatArray<ImpellerMatrix>(env, data);
+  return ReadFromArray<ImpellerMatrix, jfloatArray, float>(env, data);
 }
 
 static ImpellerColorMatrix ToColorMatrix(JNIEnv* env, jfloatArray data) {
-  return ReadFromFloatArray<ImpellerColorMatrix>(env, data);
+  return ReadFromArray<ImpellerColorMatrix, jfloatArray, float>(env, data);
 }
 
 bool FromMatrix(JNIEnv* env, jfloatArray dst, const ImpellerMatrix& value) {
@@ -1538,4 +1568,76 @@ Java_dev_flutter_impeller_Surface_ImpellerSurfaceCreateWrappedFBONew(
                                   static_cast<int64_t>(isurface_size.height)};
   return (jlong)ImpellerSurfaceCreateWrappedFBONew(
       (ImpellerContext)context, fbo, (ImpellerPixelFormat)pixel_format, &size);
+}
+
+//------------------------------------------------------------------------------
+// Texture
+//------------------------------------------------------------------------------
+
+static ImpellerTextureDescriptor ToTextureDescriptor(JNIEnv* env,
+                                                     jint pixel_format,
+                                                     jlongArray size,
+                                                     jint mip_count) {
+  ImpellerTextureDescriptor desc = {};
+  desc.mip_count = mip_count;
+  desc.pixel_format = (ImpellerPixelFormat)pixel_format;
+  desc.size = ToISize(env, size);
+  return desc;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_dev_flutter_impeller_Texture_ImpellerTextureRelease(JNIEnv* env,
+                                                         jclass clazz,
+                                                         jlong texture) {
+  ImpellerTextureRelease((ImpellerTexture)texture);
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_dev_flutter_impeller_Texture_ImpellerTextureGetOpenGLHandle(
+    JNIEnv* env,
+    jclass clazz,
+    jlong texture) {
+  if (texture == 0) {
+    return 0;
+  }
+  return ImpellerTextureGetOpenGLHandle((ImpellerTexture)texture);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_Texture_ImpellerTextureCreateWithOpenGLTextureHandleNew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong context,
+    jint pixel_format,
+    jlongArray size,
+    jint mip_count,
+    jint opengl_handle) {
+  const auto texture_descriptor =
+      ToTextureDescriptor(env, pixel_format, size, mip_count);
+  return (jlong)ImpellerTextureCreateWithOpenGLTextureHandleNew(
+      (ImpellerContext)context, &texture_descriptor, opengl_handle);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_dev_flutter_impeller_Texture_ImpellerTextureCreateWithContentsNew(
+    JNIEnv* env,
+    jclass clazz,
+    jlong context,
+    jint pixel_format,
+    jlongArray size,
+    jint mip_count,
+    jbyteArray data) {
+  auto data_bytes = env->GetByteArrayElements(data, NULL);
+  if (!data_bytes) {
+    return 0;
+  }
+  const auto texture_descriptor =
+      ToTextureDescriptor(env, pixel_format, size, mip_count);
+  ImpellerMapping mapping = {};
+  mapping.data = (const uint8_t*)data_bytes;
+  mapping.length = env->GetArrayLength(data);
+  auto result = (jlong)ImpellerTextureCreateWithContentsNew(
+      (ImpellerContext)context, &texture_descriptor, &mapping, nullptr);
+  env->ReleaseByteArrayElements(data, data_bytes, 0);
+  return result;
 }

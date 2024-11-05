@@ -1,8 +1,4 @@
-ImpellerTextureCreateWithContentsNew
-ImpellerTextureCreateWithOpenGLTextureHandleNew
-ImpellerTextureGetOpenGLHandle
-ImpellerTextureRelease
-ImpellerTextureRetain
+
 ImpellerTypographyContextNew
 ImpellerTypographyContextRegisterFont
 ImpellerTypographyContextRelease
