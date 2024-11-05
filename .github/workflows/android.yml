@@ -1,4 +1,4 @@
-name: Android CI
+name: Build for Android
 
 on:
   push:
@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: set up JDK 17
@@ -19,7 +17,6 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
         cache: gradle
-
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
